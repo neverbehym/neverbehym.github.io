@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Progression prediction with IMI-APPROACH heterologous biomedical data/title>
+        <title>Progression prediction with IMI-APPROACH heterologous biomedical data</title>
         <style>
-        h1 {text-align: center;}
-        h2 {text-align: center;}
+        h1 {text-align: center;color: #2e6c80;}
+        h2 {text-align: left; color: #5e9ca0;} 
         p {text-align: left;}
         div {text-align: center;}
         </style>
@@ -14,24 +14,30 @@
     <body>
     
         <h1>Progression prediction with IMI-APPROACH heterologous biomedical data</h1>
-        <h2>Prediction model performance estimation</h2>
-
+        <h2>Prediction of delta-based progression labels/h2>
+        <h2>Model performance estimation in heatmap:        <a href="OAprogPred/AcrossLabels_CHA_fscore.html">f1-score</a>        <a href="OAprogPred/AcrossLabels_REG_fscore.html">auc</a></h2>
+        <h2>Characteristics selected and their impacts on the prediction model:/h2>
         <table>
         <tbody>
           <tr>
             <td></th>
-            <td>Delta-based progression</td>
-            <td>Regressio-based progression</td>
+            <td>Biomarker</td>
+            <td>Clinical</td>
+            <td>Questionnaires</td>
+            <td>MRI</td>
+            <td>Xray</td>
+            <td>Tomography</td>
+            <td>ALL</td>
           </tr>
           <tr>
-            <td>f1-score</th>
-            <td><a href="OAprogPred/AcrossLabels_CHA_fscore.html">link</a></td>
-            <td><a href="OAprogPred/AcrossLabels_REG_fscore.html">link</a></td>
-          </tr>
-          <tr>
-            <td>auc</th>
-            <td><a href="OAprogPred/AcrossLabels_CHA_auc.html">link</a></td>
-            <td><a href="OAprogPred/AcrossLabels_REG_auc.html">link</a></td>
+            <td>KL_score</th>
+            <td><a href="OAprogPred/shapBeeswarm-Biomarker-KL_score.pdf">0.58</a></td>
+            <td><a href="OAprogPred/shapBeeswarm-Clinical-KL_score.pdf">0.44</a></td>
+            <td><a href="OAprogPred/shapBeeswarm-Questionnaires-KL_score.pdf">0.37</a></td>
+            <td><a href="OAprogPred/shapBeeswarm-MRI-KL_score.pdf">0.54</a></td>
+            <td><a href="OAprogPred/shapBeeswarm-Xray-KL_score.pdf">0.59</a></td>
+            <td><a href="OAprogPred/shapBeeswarm-Tomography-KL_score.pdf">0.50</a></td>
+            <td><a href="OAprogPred/shapBeeswarm-all-KL_score.pdf">0.46</a></td>
           </tr>
         </tbody>
         </table>
