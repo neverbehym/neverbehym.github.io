@@ -65,10 +65,10 @@ function updatePage(columnNames, rowNames, values) {
   valuesElement.innerHTML = 'Values: <br>' + valuesHtml;
 }
 
-// Usage example
-// readCSVFile('https://raw.githubusercontent.com/neverbehym/OtherData/main/auc_CHA.csv', (columnNames, rowNames, values) => {
-//   updatePage(columnNames, rowNames, values);
-// });
+
+readCSVFile('https://github.com/neverbehym/OtherData/blob/main/auc_CHA.csv', (columnNames, rowNames, values) => {
+  updatePage(columnNames, rowNames, values);
+});
 
 
 
