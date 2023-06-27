@@ -2,45 +2,146 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Progression prediction with IMI-APPROACH heterologous biomedical data</title>
+        <title>OA Progression prediction</title>
         <style>
         h1 {text-align: center;color: #2e6c80;}
-        h2 {text-align: left; color: #5e9ca0;} 
+        h2 {text-align: left; color: #2e6c80;}
         p {text-align: left;}
         div {text-align: center;}
         </style>
     </head>
-    
+
     <body>
-    
-        <h1>Progression prediction with IMI-APPROACH heterologous biomedical data</h1>
-        <h2>Prediction of delta-based progression labels</h2>
-        <h2>Model performance estimation in heatmap:        <a href="OAprogPred/AcrossLabels_CHA_fscore.html">f1-score</a>        <a href="OAprogPred/AcrossLabels_REG_fscore.html">auc</a></h2>
-        <h2>Characteristics selected and their impacts on the prediction model:</h2>
-        <table>
-        <tbody>
-          <tr>
-            <td></th>
-            <td>Biomarker</td>
-            <td>Clinical</td>
-            <td>Questionnaires</td>
-            <td>MRI</td>
-            <td>Xray</td>
-            <td>Tomography</td>
-            <td>ALL</td>
-          </tr>
-          <tr>
-            <td>KL_score</th>
-            <td><a href="OAprogPred/shapBeeswarm-Biomarker-KL_score.pdf">0.58</a></td>
-            <td><a href="OAprogPred/shapBeeswarm-Clinical-KL_score.pdf">0.44</a></td>
-            <td><a href="OAprogPred/shapBeeswarm-Questionnaires-KL_score.pdf">0.37</a></td>
-            <td><a href="OAprogPred/shapBeeswarm-MRI-KL_score.pdf">0.54</a></td>
-            <td><a href="OAprogPred/shapBeeswarm-Xray-KL_score.pdf">0.59</a></td>
-            <td><a href="OAprogPred/shapBeeswarm-Tomography-KL_score.pdf">0.50</a></td>
-            <td><a href="OAprogPred/shapBeeswarm-all-KL_score.pdf">0.46</a></td>
-          </tr>
-        </tbody>
-        </table>
-    
-    </body>
+        <h1>OA progression prediction with IMI-APPROACH dataset</h1>
+        <p> IMI-APPROACH dataset includes 6 categories of data: Biomarker <strong>(B)</strong>, Clinical <strong>(C)</strong>, Questionnaires <strong>(Q)</strong>,  MRI <strong>(M)</strong>, Xray <strong>(X)</strong>, Tomography<strong>(T)</strong>. Machine learning models are trained with each category of the data as well as <strong>ALL</strong> data combined to predict OA progression. </p>
+
+<script type="text/javascript">
+
+// get the path of the corresponding figure by the data name (e.g. "Biomarker") and a set of progression label names (e.g. ["KL_score", "MOAKS_CartAny_Pat", "MOAKS_CartFull_Pat"....])
+function getPath(labelnames,dataname) {
+    for (let i = 0; i < labelnames.length; i++) {
+      labelnames[i] = "OAprogPred/shapBeeswarm-"+dataname + "-"+labelnames[i]+".pdf";
+    }
+    return labelnames
+}
+// read csv file which contains the auc values (shape= [num_dataset, num_progressionLabels]) and return progression label names, data names and values
+function readCSVFile(csvFile, callback) {
+  fetch(csvFile)
+    .then(response => response.text())
+    .then(csvData => {
+      const lines = csvData.split('\n');
+      const columnNames = lines[0].split(',').slice(1); // Extract column names from the first row
+      const rowNames = [];
+      const values = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const rowValues = lines[i].split(',').slice(1); // Extract row values starting from the second column
+        rowNames.push(lines[i].split(',')[0]); // Extract row names from the first column
+        values.push(rowValues);
+      }
+
+      callback(columnNames, rowNames, values);
+    })
+    .catch(error => {
+      console.error('Error reading CSV file:', error);
+    });
+}
+function updatePage(columnNames, rowNames, values) {
+  const columnNamesElement = document.getElementById('columnNames');
+  const rowNamesElement = document.getElementById('rowNames');
+  const valuesElement = document.getElementById('values');
+
+  // Display column names
+  columnNamesElement.textContent = 'Column Names: ' + columnNames.join(', ');
+
+  // Display row names
+  rowNamesElement.textContent = 'Row Names: ' + rowNames.join(', ');
+
+  // Display values
+  let valuesHtml = '';
+  for (let i = 0; i < values.length; i++) {
+    valuesHtml += values[i].join(', ') + '<br>';
+  }
+  valuesElement.innerHTML = 'Values: <br>' + valuesHtml;
+}
+
+// Usage example
+readCSVFile('https://raw.githubusercontent.com/neverbehym/OtherData/main/auc_CHA.csv', (columnNames, rowNames, values) => {
+  updatePage(columnNames, rowNames, values);
+});
+
+
+
+// const delta_progNames = ["KL_score", "MOAKS_CartAny_Pat", "MOAKS_CartFull_Pat","MOAKS_CartAny_MAC", "MOAKS_CartFull_MAC", "qMRI_CartThick_MAC","qMRI_CartThick_wholejoint", "KIDA_JSWmin_06", "KIDA_JSWmean_MAC","MOAKS_OP_MAC", "MOAKS_OP_Pat", "KIDA_OP_MAC", "MOAKS_Synovitis","MOAKS_Effusion", "MOAKS_MeniscalTear", "MOAKS_MeniscalExtrusion","KIDA_BD_MAC","MOAKS_BMLnum_MAC","MOAKS_BMLsize_MAC","MOAKS_BMLnum_Pat","MOAKS_BMLsize_Pat","boneMRI_ShapeFermur","boneMRI_ShapeTibia","boneMRI_BoneArea","structural_CartThick","structural_JSW", "structural_OP", "structural_inflam","structural_BML", "structural_Bone", "structural_Cart_all","structural_Cart_any","Structural_nonCart_all","Structural_nonCart_half", "Structural_nonCart_any","structural_any_all","structural_all_any"];
+// const reg_progNames = ["REG_KL_score", "REG_MOAKS_CartAny_Pat", "REG_MOAKS_CartFull_Pat","REG_MOAKS_CartAny_MAC", "REG_MOAKS_CartFull_MAC","REG_qMRI_CartThick_MAC", "REG_qMRI_CartThick_wholejoint","REG_KIDA_JSWmin_06", "REG_KIDA_JSWmean_MAC", "REG_MOAKS_OP_MAC","REG_MOAKS_OP_Pat", "REG_KIDA_OP_MAC", "REG_MOAKS_Synovitis","REG_MOAKS_Effusion", "REG_MOAKS_MeniscalTear","REG_MOAKS_MeniscalExtrusion", "REG_KIDA_BD_MAC","REG_MOAKS_BMLnum_MAC", "REG_MOAKS_BMLsize_MAC", "REG_MOAKS_BMLnum_Pat","REG_MOAKS_BMLsize_Pat", "structural_REG_CartThick", "structural_REG_JSW", "structural_REG_OP", "structural_REG_inflam","structural_REG_BML", "structural_REG_Cart_all","structural_REG_Cart_any", "Structural_REG_nonCart_all","Structural_REG_nonCart_half", "Structural_REG_nonCart_any","structural_REG_any_all", "structural_REG_all_any"];
+
+        document.write(" <ul>");
+        document.write("<table style='width:100%'>");
+        document.write("<tbody>");
+        document.write("    <tr>");
+        document.write("        <td>");
+        document.write("            <table style='width:50%';>");
+        document.write("            <tbody>");
+        document.write("                <li><h2>Prediction of delta-based progression labels</h2></li>");
+        document.write("                <p>Model performance estimation in heatmap:        <a href='OAprogPred/AcrossLabels_CHA_fscore.html'>f1-score</a>        <a href='OAprogPred/AcrossLabels_CHA_auc.html'>auc</a></p>");
+        document.write("                <p>Characteristics selected for prediction and their impacts on the model:</p>");
+
+        document.write("                <tr>");
+        document.write("                    <td> </th>");
+        document.write("                    <td>B</td>");
+        document.write("                    <td>C</td>");
+        document.write("                    <td>Q</td>");
+        document.write("                    <td>M</td>");
+        document.write("                    <td>X</td>");
+        document.write("                    <td>T</td>");
+        document.write("                    <td>ALL</td>");
+        document.write("                </tr>");
+        document.write("                <tr>");
+        document.write("                    <td>KL_score</th>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Biomarker-KL_score.pdf'>0.58</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Clinical-KL_score.pdf'>0.44</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Questionnaires-KL_score.pdf'>0.37</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-MRI-KL_score.pdf'>0.54</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Xray-KL_score.pdf'>0.59</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Tomography-KL_score.pdf'>0.50</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-all-KL_score.pdf'>0.46</a></td>");
+        document.write("                </tr>");
+        document.write("            </tbody>");
+        document.write("            </table>");
+        document.write("        </td>");
+        document.write("        <td>");
+        document.write("            <table style='width:50%';>");
+        document.write("            <tbody>");
+        document.write("                <li><h2>Prediction of regression-based progression labels</h2></li>");
+        document.write("                <p>Model performance estimation in heatmap:        <a href='OAprogPred/AcrossLabels_REG_fscore.html'>f1-score</a>        <a href='OAprogPred/AcrossLabels_REG_auc.html'>auc</a></p>");
+        document.write("                <p>Characteristics selected for prediction and their impacts on the model:</p>");
+        document.write("                <tr>");
+        document.write("                    <td> </th>");
+        document.write("                    <td>B</td>");
+        document.write("                    <td>C</td>");
+        document.write("                    <td>Q</td>");
+        document.write("                    <td>M</td>");
+        document.write("                    <td>X</td>");
+        document.write("                    <td>T</td>");
+        document.write("                    <td>ALL</td>");
+        document.write("                 </tr>");
+        document.write("                 <tr>");
+        document.write("                    <td>KL_score</th>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Biomarker-REG_KL_score.pdf'>0.58</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Clinical-REG_KL_score.pdf'>0.44</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Questionnaires-REG_KL_score.pdf'>0.37</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-MRI-REG_KL_score.pdf'>0.54</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Xray-REG_KL_score.pdf'>0.59</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-Tomography-REG_KL_score.pdf'>0.50</a></td>");
+        document.write("                    <td><a href='OAprogPred/shapBeeswarm-all-REG_KL_score.pdf'>0.46</a></td>");
+        document.write("                 </tr>");
+        document.write("            </tbody>");
+        document.write("            </table>");
+        document.write("         </td>");
+        document.write("    </tr>");
+        document.write("</tbody>");
+        document.write("</table>");
+        document.write("</ul>");
+        </script>
+     </body>
 </html> 
