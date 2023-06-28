@@ -16,6 +16,7 @@
 }
 #left-table{
 text-align: left;
+margin-right: 20px;
 margin-right: 140px;
     }
 #right-table {
@@ -49,10 +50,10 @@ function generateTable(data1,rownames1,data2,rownames2,colnames) {
     tableContainer.className = 'table-container';
     const leftTable = document.createElement('table');
     leftTable.id = 'left-table';
-    leftTable.style.width='40%'
+    leftTable.style.width='35%'
     const rightTable = document.createElement('table');
     rightTable.id = 'right-table';
-    rightTable.style.width='40%'
+    rightTable.style.width='35%'
 
     const row_ltitle = document.createElement('tr');
     const cell_ltitle = document.createElement('td');
