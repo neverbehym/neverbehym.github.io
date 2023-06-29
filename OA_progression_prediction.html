@@ -135,7 +135,7 @@ function generateTable(data1,rownames1,data2,rownames2,colnames) {
 
 }
 dataNames = ['Biomarker', 'Clinical', 'Questionnaires', 'MRI', 'Xray', 'Tomography','all'];
-const delta_progNames = ["KL_score", "MOAKS_CartAny_Pat", "MOAKS_CartFull_Pat","MOAKS_CartAny_MAC", "MOAKS_CartFull_MAC", "qMRI_CartThick_MAC","qMRI_CartThick_wholejoint", "KIDA_JSWmin_06", "KIDA_JSWmean_MAC","MOAKS_OP_MAC", "MOAKS_OP_Pat", "KIDA_OP_MAC", "MOAKS_Synovitis","MOAKS_Effusion", "MOAKS_MeniscalTear", "MOAKS_MeniscalExtrusion","KIDA_BD_MAC","MOAKS_BMLnum_MAC","MOAKS_BMLsize_MAC","MOAKS_BMLnum_Pat","MOAKS_BMLsize_Pat","boneMRI_ShapeFermur","boneMRI_ShapeTibia","boneMRI_BoneArea","structural_CartThick","structural_JSW", "structural_OP", "structural_inflam","structural_BML", "structural_Bone", "structural_Cart_all","structural_Cart_any","Structural_nonCart_all","Structural_nonCart_half", "Structural_nonCart_any","structural_any_all","structural_all_any"];
+const delta_progNames = ["KL_score", "MOAKS_CartAny_Pat", "MOAKS_CartFull_Pat","MOAKS_CartAny_MAC", "MOAKS_CartFull_MAC", "qMRI_CartThick_MAC","qMRI_CartThick_wholejoint", "KIDA_JSWmin_06", "KIDA_JSWmean_MAC","MOAKS_OP_MAC", "MOAKS_OP_Pat", "KIDA_OP_MAC", "MOAKS_Synovitis","MOAKS_Effusion", "MOAKS_MeniscalTear", "MOAKS_MeniscalExtrusion","KIDA_BD_MAC","MOAKS_BMLnum_MAC","MOAKS_BMLsize_MAC","MOAKS_BMLnum_Pat","MOAKS_BMLsize_Pat","boneMRI_ShapeFermur","boneMRI_ShapeTibia","boneMRI_BoneArea","structural_CartThick","structural_JSW", "structural_OP", "structural_inflam","structural_BML", "structural_Bone", "structural_Cart_all","structural_Cart_any","Structural_nonCart_all","Structural_nonCart_half", "Structural_nonCart_any","structural_any_all","structural_all_any","Pain_Escalated", "Pain_Sustained"];
 const reg_progNames = ["REG_KL_score", "REG_MOAKS_CartAny_Pat", "REG_MOAKS_CartFull_Pat","REG_MOAKS_CartAny_MAC", "REG_MOAKS_CartFull_MAC","REG_qMRI_CartThick_MAC", "REG_qMRI_CartThick_wholejoint","REG_KIDA_JSWmin_06", "REG_KIDA_JSWmean_MAC", "REG_MOAKS_OP_MAC","REG_MOAKS_OP_Pat", "REG_KIDA_OP_MAC", "REG_MOAKS_Synovitis","REG_MOAKS_Effusion", "REG_MOAKS_MeniscalTear","REG_MOAKS_MeniscalExtrusion", "REG_KIDA_BD_MAC","REG_MOAKS_BMLnum_MAC", "REG_MOAKS_BMLsize_MAC", "REG_MOAKS_BMLnum_Pat","REG_MOAKS_BMLsize_Pat", "structural_REG_CartThick", "structural_REG_JSW", "structural_REG_OP", "structural_REG_inflam","structural_REG_BML", "structural_REG_Cart_all","structural_REG_Cart_any", "Structural_REG_nonCart_all","Structural_REG_nonCart_half", "Structural_REG_nonCart_any","structural_REG_any_all", "structural_REG_all_any"];
 const delta_progAUCs = [
     [0.59, 0.44, 0.38, 0.54, 0.6,  0.51, 0.46], [0.59, 0.51, 0.42, 0.43, 0.52, 0.5,  0.52], [0.48, 0.44, 0.48, 0.58, 0.58, 0.4, 0.62], [0.51, 0.65, 0.6,  0.56, 0.46, 0.44, 0.34],
@@ -147,7 +147,7 @@ const delta_progAUCs = [
     [0.58, 0.51, 0.62, 0.63, 0.69, 0.62, 0.67], [0.49, 0.49, 0.51, 0.45, 0.51, 0.52, 0.42], [0.65, 0.54, 0.58, 0.73, 0.7,  0.72, 0.73], [0.56, 0.57, 0.59, 0.46, 0.49, 0.55, 0.51],
     [0.47, 0.55, 0.5,  0.74, 0.77, 0.74, 0.72], [0.59, 0.57, 0.67, 0.72, 0.76, 0.69, 0.79], [0.52, 0.58, 0.6,  0.66, 0.69, 0.61, 0.57], [0.65, 0.47, 0.57, 0.58, 0.7,  0.57, 0.68],
     [0.72, 0.5,  0.61, 0.66, 0.54, 0.59, 0.6 ], [0.53, 0.52, 0.57, 0.59, 0.7,  0.53, 0.68], [0.58, 0.53, 0.61, 0.77, 0.76, 0.65, 0.73], [0.59, 0.54, 0.66, 0.71, 0.76, 0.67, 0.77],
-    [0.61, 0.57, 0.63, 0.69, 0.7,  0.72, 0.65]
+    [0.61, 0.57, 0.63, 0.69, 0.7,  0.72, 0.65],[0.53, 0.5 , 0.69, 0.47, 0.55, 0.56, 0.43],[0.58, 0.74, 0.95, 0.73, 0.62, 0.55, 0.95]
 ];
 const reg_progAUCs = [
     [0.52, 0.55, 0.4,  0.55, 0.56, 0.48, 0.51], [0.43, 0.58, 0.54, 0.46, 0.6,  0.53, 0.54], [0.55, 0.48, 0.51, 0.55, 0.59, 0.4,  0.55], [0.55, 0.55, 0.58, 0.47, 0.52, 0.5,  0.55],
@@ -164,6 +164,7 @@ const reg_progAUCs = [
 
 generateTable(delta_progAUCs,delta_progNames,reg_progAUCs,reg_progNames,dataNames);
         </script>
-        <h3>Check the heatmaps of AUC values [ <a href='OAprogPred/AcrossLabels_CHA_auc.html'>delta-based</a>;  <a href='OAprogPred/AcrossLabels_REG_auc.html'>regression-based</a> ] and f1-scores [ <a href='OAprogPred/AcrossLabels_CHA_fscore.html'>delta-based</a>;  <a href='OAprogPred/AcrossLabels_REG_fscore.html'>regression-based</a> ]. </h3>
-     </body>
+        <h3>Check the heatmaps of AUC values [ <a href='OAprogPred/AcrossLabels_CHA_auc.html'>delta-based</a>;  <a href='OAprogPred/AcrossLabels_REG_auc.html'>regression-based</a>] and f1-scores [ <a href='OAprogPred/AcrossLabels_CHA_fscore.html'>delta-based</a>;  <a href='OAprogPred/AcrossLabels_REG_fscore.html'>regression-based</a>] for structural progression predication. </h3>
+        <h3>Check the heatmaps of <a href='OAprogPred/AcrossLabels_CHA_fscore_pain.html'>AUC values</a> and <a href='OAprogPred/AcrossLabels_CHA_auc_pain.html'>f1-scores </a>] for pain progression predication. </h3>
+    </body>
 </html>
