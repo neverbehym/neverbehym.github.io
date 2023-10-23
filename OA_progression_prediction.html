@@ -33,16 +33,17 @@ margin-right: 140px;
 
 </style>
     <body>
-    
+
         <h1>OA progression prediction with IMI-APPROACH dataset</h1>
         <br>
         <p> IMI-APPROACH dataset includes 6 categories of data: Biomarker <strong>(B)</strong>, Clinical <strong>(C)</strong>, Questionnaires <strong>(Q)</strong>,  MRI <strong>(M)</strong>, Xray <strong>(X)</strong>, Tomography<strong>(T)</strong>. Machine learning models are trained with each category of the data as well as <strong>all</strong> data combined to predict OA progression. </p>
 <br>
 <h3>Below the AUC values for all models are listed, please click to see the characteristics selected by each model.</h3>
+In each progression category, the last row lists a combo progression metric intergrating the above single progression measurements.
 <br>
 <script type="text/javascript">
 
-function generateTable(data1,rownames1,data2,rownames2,colnames) {
+function generateTable(data1,rownames11,rownames12,data2,rownames21,rownames22,colnames) {
 
     const tableContainer = document.createElement('div');
     tableContainer.className = 'table-container';
@@ -71,6 +72,9 @@ function generateTable(data1,rownames1,data2,rownames2,colnames) {
 
   const row_l = document.createElement('tr');
   const cell_l = document.createElement('td');
+  cell_l.textContent = "Progression Category";
+  row_l.appendChild(cell_l);
+  const cell_l = document.createElement('td');
   cell_l.textContent = "Progression Label";
   row_l.appendChild(cell_l);
   for (let j = 0; j < colnames.length-1; j++) {
@@ -86,12 +90,15 @@ function generateTable(data1,rownames1,data2,rownames2,colnames) {
   for (let i = 0; i < data1.length; i++) {
     const row = document.createElement('tr');
     const header = document.createElement('td');
-    header.textContent = rownames1[i];
+    header.textContent = rownames11[i];
     row.appendChild(header);
+    const cell = document.createElement('td');
+    cell.textContent = rownames12[i];
+    row.appendChild(cell);
     for (let j = 0; j < data1[i].length; j++) {
         const cell = document.createElement('td');
         const link = document.createElement('a');
-        link.href = "OAprogPred/shapBeeswarm-"+colnames[j] + "-"+rownames1[i]+".pdf"
+        link.href = "OAprogPred/shapBeeswarm-"+colnames[j] + "-"+rownames12[i]+".pdf"
         link.textContent = data1[i][j];
         cell.appendChild(link);
         row.appendChild(cell);
@@ -100,6 +107,9 @@ function generateTable(data1,rownames1,data2,rownames2,colnames) {
   }
 
   const row_r = document.createElement('tr');
+  const cell_l = document.createElement('td');
+  cell_l.textContent = "Progression Category";
+  row_l.appendChild(cell_l);
   const cell_r = document.createElement('td');
   cell_r.textContent = "Progression Label";
   row_r.appendChild(cell_r);
@@ -116,12 +126,15 @@ function generateTable(data1,rownames1,data2,rownames2,colnames) {
   for (let i = 0; i < data2.length; i++) {
     const row = document.createElement('tr');
     const header = document.createElement('td');
-    header.textContent = rownames2[i];
+    header.textContent = rownames21[i];
     row.appendChild(header);
+    const cell = document.createElement('td');
+    cell.textContent = rownames22[i];
+    row.appendChild(cell);
     for (let j = 0; j < data2[i].length; j++) {
         const cell = document.createElement('td');
         const link = document.createElement('a');
-        link.href = "OAprogPred/shapBeeswarm-"+colnames[j] + "-"+rownames2[i]+".pdf"
+        link.href = "OAprogPred/shapBeeswarm-"+colnames[j] + "-"+rownames22[i]+".pdf"
         link.textContent = data2[i][j];
         cell.appendChild(link);
         row.appendChild(cell);
@@ -146,6 +159,17 @@ const delta_progNames = ['KL_score_2', 'MOAKS_CartAny_Pat', 'MOAKS_CartFull_Pat'
        'MOAKS_BMLnum_MAC', 'MOAKS_BMLnum_wholejoint', 'MOAKS_BMLsize_MAC',
        'MOAKS_BMLsize_wholejoint', 'MOAKS_BMLnum_Pat', 'MOAKS_BMLsize_Pat','BML',
        'boneMRI_ShapeFermur', 'boneMRI_ShapeTibia', 'boneMRI_BoneArea', 'Bone'];
+const delta_progCats = ['KL score', 'Cartilage Thickness', 'Cartilage Thickness',
+      'Cartilage Thickness', 'Cartilage Thickness', 'Cartilage Thickness',
+      'Cartilage Thickness', 'Cartilage Thickness',
+      'Cartilage Thickness','Cartilage Thickness', 'Joint Space Width', 'Joint Space Width',
+      'Joint Space Width','Joint Space Width', 'Osteophyte', 'Osteophyte',
+      'Osteophyte', 'Osteophyte', 'Osteophyte', 'Osteophyte',
+      'Inflame', 'Inflame',  'Inflame','Meniscal',
+      'Meniscal','Meniscal', 'Bone Density', 'Bone Density','Bone Density',
+      'Bone Marrow Lesion', 'Bone Marrow Lesion', 'Bone Marrow Lesion',
+      'Bone Marrow Lesion', 'Bone Marrow Lesion', 'Bone Marrow Lesion','Bone Marrow Lesion',
+      'Bone Shape', 'Bone Shape', 'Bone Shape', 'Bone Shape'];
 const reg_progNames = ['REG_KL_score_2', 'REG_MOAKS_CartAny_Pat', 'REG_MOAKS_CartFull_Pat',
 'REG_MOAKS_CartAny_MAC', 'REG_MOAKS_CartAny_wholejoint', 'REG_MOAKS_CartFull_MAC',
 'REG_MOAKS_CartFull_wholejoint', 'REG_qMRI_CartThick_MAC',
@@ -156,6 +180,16 @@ const reg_progNames = ['REG_KL_score_2', 'REG_MOAKS_CartAny_Pat', 'REG_MOAKS_Car
 'REG_MOAKS_MeniscalExtrusion','REG_Meniscal', 'REG_KIDA_BD_MAC', 'REG_KIDA_BD_wholejoint','REG_BD',
 'REG_MOAKS_BMLnum_MAC', 'REG_MOAKS_BMLnum_wholejoint', 'REG_MOAKS_BMLsize_MAC',
 'REG_MOAKS_BMLsize_wholejoint', 'REG_MOAKS_BMLnum_Pat', 'REG_MOAKS_BMLsize_Pat','REG_BML'];
+const reg_progCats = ['KL score', 'Cartilage Thickness', 'Cartilage Thickness',
+      'Cartilage Thickness', 'Cartilage Thickness', 'Cartilage Thickness',
+      'Cartilage Thickness', 'Cartilage Thickness',
+      'Cartilage Thickness','Cartilage Thickness', 'Joint Space Width', 'Joint Space Width',
+      'Joint Space Width','Joint Space Width', 'Osteophyte', 'Osteophyte',
+      'Osteophyte', 'Osteophyte', 'Osteophyte', 'Osteophyte',
+      'Inflame', 'Inflame',  'Inflame','Meniscal',
+      'Meniscal','Meniscal', 'Bone Density', 'Bone Density','Bone Density',
+      'Bone Marrow Lesion', 'Bone Marrow Lesion', 'Bone Marrow Lesion',
+      'Bone Marrow Lesion', 'Bone Marrow Lesion', 'Bone Marrow Lesion','Bone Marrow Lesion'];
 const delta_progAUCs = [[0.62, 0.44, 0.44, 0.47, 0.74, 0.42, 0.62],
        [0.57, 0.57, 0.45, 0.49, 0.59, 0.59, 0.5 ],
        [0.44, 0.48, 0.49, 0.63, 0.52, 0.37, 0.51],
@@ -234,9 +268,9 @@ const reg_progAUCs = [[0.48, 0.47, 0.45, 0.63, 0.66, 0.49, 0.56],
        [0.62, 0.49, 0.6 , 0.77, 0.82, 0.78, 0.8 ]];
 
 
-generateTable(delta_progAUCs,delta_progNames,reg_progAUCs,reg_progNames,dataNames);
+generateTable(delta_progAUCs,delta_progCats,delta_progNames,reg_progAUCs,reg_progCats,reg_progNames,dataNames);
         </script>
-    
+
         <h3>Check the heatmaps of AUC values [ <a href='OAprogPred/AcrossLabels_CHA_auc.html'>delta-based</a>;  <a href='OAprogPred/AcrossLabels_REG_auc.html'>regression-based</a>] and f1-scores [ <a href='OAprogPred/AcrossLabels_CHA_fscore.html'>delta-based</a>;  <a href='OAprogPred/AcrossLabels_REG_fscore.html'>regression-based</a>] for structural progression predication. </h3>
     </body>
 </html>
