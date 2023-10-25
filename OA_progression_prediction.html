@@ -71,12 +71,12 @@ function generateTable(data1,rownames11,rownames12,data2,rownames21,rownames22,c
 
 
   const row_l = document.createElement('tr');
-  const cell_l = document.createElement('td');
-  cell_l.textContent = "Progression Category";
-  row_l.appendChild(cell_l);
-  const cell_l = document.createElement('td');
-  cell_l.textContent = "Progression Label";
-  row_l.appendChild(cell_l);
+  const cell_l1 = document.createElement('td');
+  cell_l1.textContent = "Progression Category";
+  row_l.appendChild(cell_l1);
+  const cell_l2 = document.createElement('td');
+  cell_l2.textContent = "Progression Label";
+  row_l.appendChild(cell_l2);
   for (let j = 0; j < colnames.length-1; j++) {
       const cell = document.createElement('td');
       cell.textContent = colnames[j].charAt(0);
@@ -107,12 +107,12 @@ function generateTable(data1,rownames11,rownames12,data2,rownames21,rownames22,c
   }
 
   const row_r = document.createElement('tr');
-  const cell_l = document.createElement('td');
-  cell_l.textContent = "Progression Category";
-  row_l.appendChild(cell_l);
-  const cell_r = document.createElement('td');
-  cell_r.textContent = "Progression Label";
-  row_r.appendChild(cell_r);
+  const cell_r1 = document.createElement('td');
+  cell_r1.textContent = "Progression Category";
+  row_r.appendChild(cell_r1);
+  const cell_r2 = document.createElement('td');
+  cell_r2.textContent = "Progression Label";
+  row_r.appendChild(cell_r2);
   for (let j = 0; j < colnames.length-1; j++) {
       const cell = document.createElement('td');
       cell.textContent = colnames[j].charAt(0);
